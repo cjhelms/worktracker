@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+    {{project.title}}
+{% endblock %}
+{% block content %}
+    <form action="{% url 'boards:index' %}">
+        <input type="submit" value="Back">
+    </form>
+    <form action="{% url 'boards:new_feature' project.id %}">
+        <input type="submit" value="New">
+    </form>
+    {% if project.features.all %}
+        <ul>
+        {% for feature in project.features.all %}
+            <li>{{feature.title}}</li>
+            <li>{{feature.description}}</li>
+            <li>
+                <form action="{% url 'boards:delete_feature' project.id feature.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="delete">
+                </form>
+            </li>
+            ---
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No features available</p>
+    {% endif %}
+{% endblock %}

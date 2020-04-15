@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-light pl-5 pr-5 shadow navbar-light fixed-top">
+        <ul class="nav navbar-nav pr-3">
+            <li class="nav-brand"><a class="nav-link" href="{% url 'boards:index' %}"><img src="{% static 'images/logo.png' %}" width=45 height=30></a></li>
+        </ul>
+        <ul class="nav navbar-nav border-left pl-3">
+            <li><a class="nav-link" href="{% url 'boards:index' %}">Projects</a></li>
+            <li><a class="nav-link" href="#">About</a></li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <span class="navbar-text">Hello, {{ user.username }}!</span>
+                <li><a class="nav-link ml-2" href="{% url 'users:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a class="nav-link" href="{% url 'users:login' %}">Login</a></li>
+                <li><a class="nav-link" href="{% url 'users:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="main_content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer font-small bg-light border-top">
+        <div class="footer-copyright text-center py-3">
+            <span class="text-muted mr-1">Worktracker made by Chris Helms</span>
+            <span class="text-muted"> / </span>
+            <a class="ml-1 mr-1" href="#">Github Repository</a>
+            <span class="text-muted"> / </span>
+            <a class="ml-1" href="https://www.linkedin.com/in/chris-helms-a1b35914b/">LinkedIn</a>
+        </div>
+    </footer>
+    <!-- Footer -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

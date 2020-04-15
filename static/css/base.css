@@ -1,0 +1,66 @@
+html {
+    min-height: 100%;
+}
+
+body {
+    background-color: white;
+    padding-top: 90px;
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    text-align: center;
+}
+
+div.main_content {
+    /* background-color: whitesmoke;
+    border: 1px solid gainsboro; */
+    max-width: 1280px;
+    margin: auto;
+    padding: 0 2% 2%;
+}
+
+div.project_container {
+    background-color: whitesmoke;
+    border: 1px solid gainsboro;
+    padding: 10px 10px 10px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+form.delete_project {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+a.project_link {
+    transition-duration: 0.3s;
+}
+
+a.project_link:active {
+    text-decoration: none;
+    color: black;
+}
+
+a.project_link:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a.project_link:link {
+    text-decoration: none;
+    color: black;
+}
+
+a.project_link:hover {
+    text-decoration: none;
+    color: darkgray;
+}

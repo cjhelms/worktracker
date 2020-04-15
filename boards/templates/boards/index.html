@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+    Projects
+{% endblock %}
+{% block content %}
+    <div class="border-bottom pb-2 mb-4">
+        <div class="row">
+            <div class="col-6">
+                <h2>Projects</h2>
+            </div>
+            <div class="col-6 text-right">
+                <form action="{% url 'boards:new_project' %}">
+                    <input type="submit" value="+ New Project" class="btn btn-light border shadow-sm rounded">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% if project_list %}
+        <div class="row">
+        {% for project in project_list %}
+            <div class="col-md-4" style="margin-bottom:30px;">
+                <div class="card mx-auto shadow p-3 mb-5 bg-white rounded" style="width:300px;height:300px;">
+                    <div class="card-body">
+                        <a class="project_link" href="{% url 'boards:project' project.id %}">
+                            <h4 class="card-title border-bottom pb-3">{{project.title}}</h4>
+                        </a>
+                        <p class="card-text">{{project.description}}</p>
+                        <form class="delete_project" action="{% url 'boards:delete_project' project.id %}" method="get">
+                            {% csrf_token %}
+                            <input class="btn btn-danger shadow-sm" style="border:1px solid darkred" type="submit" value="X">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>No projects available</p>
+    {% endif %}
+{% endblock %}
