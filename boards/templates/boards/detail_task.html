@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+    {{project.title}}
+{% endblock %}
+{% block content %}
+    <ul>
+        <li><a href="{% url 'boards:detail_item' active_project.id active_task.item.feature.id active_task.item.id %}">{{active_task.item}}</a></li>
+        <li>{{active_task.title}}</li>
+        <li>{{active_task.description}}</li>
+        <li>{{active_task.priority}}</li>
+        <li>{{active_task.hours_completed}}</li>
+        <li>{{active_task.hours_left}}</li>
+        <li>{{active_task.original_estimate}}</li>
+        <li>{{active_task.status}}</li>
+        <li>{{active_task.created_date}}</li>
+        <li>{{active_task.modified_date}}</li>
+    </ul>
+{% endblock %}

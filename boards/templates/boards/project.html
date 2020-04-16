@@ -6,11 +6,30 @@
     <form action="{% url 'boards:index' %}">
         <input type="submit" value="Back">
     </form>
-    <form action="{% url 'boards:new_feature' project.id %}">
+    {% comment %} <form action="{% url 'boards:new_feature' project.id %}">
         <input type="submit" value="New">
-    </form>
-    {% if project.features.all %}
-        <ul>
+    </form> {% endcomment %}
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feature in project.features.all %}
+                <tr>
+                    <td>{{feature.id}}</td>
+                    <td>{{feature.title}}</td>
+                    <td>{{feature.status}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+        {% comment %} <ul>
         {% for feature in project.features.all %}
             <li>{{feature.title}}</li>
             <li>{{feature.description}}</li>
@@ -19,11 +38,27 @@
                     {% csrf_token %}
                     <input type="submit" value="delete">
                 </form>
+                <form action="{% url 'boards:new_item' project.id feature.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="new">
+                </form>
             </li>
-            ---
+            <ul>
+            {% for item in feature.items.all %}
+                <li>{{item.title}}</li>
+                <li>{{item.description}}</li>
+                <li>
+                    <form action="{% url 'boards:delete_feature' project.id feature.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="delete">
+                    </form>
+                </li>
+            {% endfor %}
+            </ul>
         {% endfor %}
         </ul>
+        
     {% else %}
         <p>No features available</p>
     {% endif %}
-{% endblock %}
+{% endblock %} {% endcomment %}

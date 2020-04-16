@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}
+    {{project.title}}
+{% endblock %}
+{% block content %}
+    <ul>
+        <li><a href="{% url 'boards:detail_feature' active_project.id active_item.feature.id %}">{{active_item.feature}}</a></li>
+        <li>{{active_item.title}}</li>
+        <li>{{active_item.description}}</li>
+        <li>{{active_item.priority}}</li>
+        <li>{{active_item.points}}</li>
+        <li>{{active_item.status}}</li>
+        <li>{{active_item.created_date}}</li>
+        <li>{{active_item.modified_date}}</li>
+    </ul>
+    {% if active_item.tasks.all %}
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in active_item.tasks.all %}
+                    <tr>
+                        <td>{{task.id}}</td>
+                        <td><a href="{% url 'boards:detail_task' active_project.id active_item.feature.id active_item.id task.id %}">{{task}}</a></td>
+                        <td>{{task.status}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        No tasks under item.
+    {% endif %}
+{% endblock %}

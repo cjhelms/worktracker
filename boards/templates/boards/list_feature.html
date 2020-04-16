@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    {{project.title}}
+{% endblock %}
+{% block content %}
+    <form action="{% url 'boards:index' %}">
+        <input type="submit" value="Back">
+    </form>
+    {% comment %} <form action="{% url 'boards:new_feature' project.id %}">
+        <input type="submit" value="New">
+    </form> {% endcomment %}
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feature in active_project.features.all %}
+                <tr>
+                    <td>{{feature.id}}</td>
+                    <td><a href="{% url 'boards:detail_feature' active_project.id feature.id %}">{{feature.title}}</a></td>
+                    <td>{{feature.status}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

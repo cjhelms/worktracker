@@ -21,7 +21,7 @@
             <div class="col-md-4" style="margin-bottom:30px;">
                 <div class="card mx-auto shadow p-3 mb-5 bg-white rounded" style="width:300px;height:300px;">
                     <div class="card-body">
-                        <a class="project_link" href="{% url 'boards:project' project.id %}">
+                        <a class="project_link" href="{% url 'boards:list_feature' project.id %}">
                             <h4 class="card-title border-bottom pb-3">{{project.title}}</h4>
                         </a>
                         <p class="card-text">{{project.description}}</p>

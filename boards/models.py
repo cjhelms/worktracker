@@ -56,7 +56,7 @@ class Feature(models.Model):
 
 class Item(models.Model):
     # foreign keys
-    feature = models.ForeignKey(Feature, on_delete=models.CASCADE)
+    feature = models.ForeignKey(Feature, on_delete=models.CASCADE, related_name='items')
 
     # fields
     title = models.CharField(max_length=200)
@@ -66,14 +66,14 @@ class Item(models.Model):
     priority = models.IntegerField(choices=Priority.choices, default=Priority.LOW)
     status = models.CharField(max_length=6, choices=Status.choices, default=Status.NEW)
     points = models.PositiveIntegerField()
-    _type = models.CharField(max_length=5, choices=Type.choices, default=Type.STORY)
+    item_type = models.CharField(max_length=5, choices=Type.choices, default=Type.STORY)
 
     def __str__(self):
         return self.title
 
 class Task(models.Model):
     # foreign keys
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="tasks")
     
     # fields
     title = models.CharField(max_length=200)
