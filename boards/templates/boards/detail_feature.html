@@ -3,35 +3,96 @@
     {{project.title}}
 {% endblock %}
 {% block content %}
-    <ul>
-        <li>{{active_feature.title}}</li>
+    <div class="border-bottom pb-2 mb-3">
+        <h2>{{active_project}}</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="pb-2 mb-4 text-muted">{{active_feature}}</h4>
+        </div>
+        <div class="col-md-6 text-right">
+            <div class="btn-group">
+                <form action="{% url 'boards:new_item' active_project.id active_feature.id %}">
+                    <input type="submit" value="Edit" class="btn btn-light border shadow-sm rounded">
+                </form>
+                <button type="button" class="ml-2 btn btn-danger shadow-sm" style="border:1px solid darkred" data-toggle="modal" data-target="#deleteModal">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 border-right">
+            {{active_feature.description}}
+        </div>
+        <div class="col-md-6">
+            <p><span class="font-weight-bold"> Status: </span>{{active_feature.status}}</p>
+            <p><span class="font-weight-bold"> Created On: </span>{{active_feature.created_date}}</p>
+            <p><span class="font-weight-bold"> Last Modified On: </span>{{active_feature.modified_date}}</p>
+        </div>
+    </div>
+    {% comment %} <ul>
         <li>{{active_feature.description}}</li>
         <li>{{active_feature.status}}</li>
         <li>{{active_feature.created_date}}</li>
         <li>{{active_feature.modified_date}}</li>
-    </ul>
-    {% if active_feature.items.all %}
-        <table class="table table-sm">
-            <thead>
+    </ul> {% endcomment %}
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5 class="pb-2 mt-4">Work Items</h5>
+        </div>
+        <div class="col-md-6 text-right">
+            <form action="{% url 'boards:new_item' active_project.id active_feature.id %}">
+                <input type="submit" value="+ New Item" class="btn btn-light border shadow-sm rounded">
+            </form>
+        </div>
+    </div>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Type</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in active_feature.items.all %}
                 <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Status</th>
+                    <td>{{item.id}}</td>
+                    <td><a href="{% url 'boards:detail_item' active_project.id active_feature.id item.id %}">{{item}}</a></td>
+                    <td>{{item.item_type}}</td>
+                    <td>{{item.status}}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for item in active_feature.items.all %}
-                    <tr>
-                        <td>{{item.id}}</td>
-                        <td><a href="{% url 'boards:detail_item' active_project.id active_feature.id item.id %}">{{item}}</a></td>
-                        <td>{{item.item_type}}</td>
-                        <td>{{item.status}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        No items under feature.
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if not active_feature.items.all %}
+        <p class="text-center">{{active_feature}} has no items</p>
     {% endif %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    All items and tasks under this feature will be deleted. This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <form action="{% url 'boards:delete_feature' active_project.id active_feature.id %}">
+                            <input type="submit" value="Delete" class="btn btn-danger shadow-sm" style="border:1px solid darkred">
+                        </form>
+                        <button type="button" class="ml-2 btn btn-light border shadow-sm rounded" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

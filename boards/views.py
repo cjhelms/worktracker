@@ -70,7 +70,7 @@ def new_feature(request, project_id):
             now = datetime.now().date()
             Feature(project=active_project, title=title, description=description,
                     created_date=now, modified_date=now).save()
-            return HttpResponseRedirect(reverse('boards:project', args=(active_project.id,)))
+            return HttpResponseRedirect(reverse('boards:list_feature', args=(active_project.id,)))
     else:
         form = NewFeatureForm()
     return render(request, 'boards/new_feature.html', {'form': form, 'active_project': active_project})
@@ -79,10 +79,10 @@ def new_feature(request, project_id):
 def delete_feature(request, project_id, feature_id):
     active_feature = get_object_or_404(Feature, pk=feature_id)
     active_project = get_object_or_404(Project, pk=project_id)
-    if request.method == 'POST':
-        active_feature.delete()
-        return HttpResponseRedirect(reverse('boards:project', args=(active_project.id,)))
-    return HttpResponseRedirect(reverse('boards:project', args=(active_project.id,)))
+    title = active_feature.title
+    active_feature.delete()
+    messages.success(request, f'{title} has been deleted.')
+    return HttpResponseRedirect(reverse('boards:list_feature', args=(active_project.id,)))
 
 def list_item(request, project_id):
     active_project = get_object_or_404(Project, pk=project_id)

@@ -3,9 +3,23 @@
     {{project.title}}
 {% endblock %}
 {% block content %}
+    <div class="border-bottom pb-2 mb-3">
+        <h2>{{active_project}}</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="pb-2 mb-4 text-muted">Features</h4>
+        </div>
+        <div class="col-md-6 text-right">
+            <form action="{% url 'boards:new_feature' active_project.id %}">
+                <input type="submit" value="+ New Feature" class="btn btn-light border shadow-sm rounded">
+            </form>
+        </div>
+    </div>
+    {% comment %} </div>
     <form action="{% url 'boards:index' %}">
         <input type="submit" value="Back">
-    </form>
+    </form> {% endcomment %}
     {% comment %} <form action="{% url 'boards:new_feature' project.id %}">
         <input type="submit" value="New">
     </form> {% endcomment %}
@@ -27,4 +41,7 @@
             {% endfor %}
         </tbody>
     </table>
+    {% if not active_project.features.all%}
+        <p class="text-center">{{active_project}} has no features</p>
+    {% endif %}
 {% endblock %}
